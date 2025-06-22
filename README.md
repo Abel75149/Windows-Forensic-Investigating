@@ -1,111 +1,106 @@
-# Microsoft AI Enterprise Security Implementation Project
+# Windows Forensic Investigation Project
 
 ## 📌 Business Case
-As AI becomes deeply embedded in enterprise operations, securing AI systems is critical to protect sensitive data, ensure model integrity, and maintain trust. This project establishes a secure foundation for deploying and managing AI workloads using Microsoft’s AI and security platforms.
+After a suspected security incident, it's critical to perform a forensic investigation on affected Windows systems to determine the scope, method, and impact of the compromise. This project outlines a structured approach to collecting, analyzing, and reporting digital evidence from Windows environments.
 
 ---
 
 ## 🎯 Project Objectives
-- Secure AI models, data, and infrastructure across the AI lifecycle
-- Implement responsible AI governance and compliance controls
-- Detect and mitigate AI-specific threats (e.g., prompt injection, model theft)
-- Integrate AI security into existing enterprise security operations
+- Identify indicators of compromise (IOCs) and attacker behavior
+- Preserve and analyze volatile and non-volatile data
+- Reconstruct the timeline of malicious activity
+- Support incident response, legal, and compliance requirements
 
 ---
 
-## 🧾 Licensing Requirements
+## 🧾 Licensing & Tooling Requirements
 
-| Microsoft Product                  | Purpose                                      | Licensing Notes                                 |
-|-----------------------------------|----------------------------------------------|-------------------------------------------------|
-| Microsoft Defender for Cloud      | Threat protection for AI workloads           | Requires Defender for Servers or PaaS plans     |
-| Microsoft Purview                 | Data governance and risk management          | Licensed per user or capacity                   |
-| Azure OpenAI / Azure AI Services  | AI model hosting and inference               | Pay-as-you-go or commitment tiers               |
-| Azure API Management              | Secure AI endpoints and traffic control      | Based on usage and instance size                |
-| Microsoft Sentinel                | SIEM/SOAR for AI threat detection            | Pay-per-GB ingestion or capacity reservation    |
-
-**Recommendations:**
-- Bundle security tools under Microsoft Defender for Cloud plans
-- Use Microsoft Purview for data classification and insider risk management
-- Ensure licensing covers all AI environments (cloud, hybrid, on-prem)
+| Tool / Platform             | Purpose                                | Licensing Notes                          |
+|----------------------------|----------------------------------------|------------------------------------------|
+| FTK Imager / Autopsy       | Disk imaging and analysis              | Free / Open-source                       |
+| Velociraptor / KAPE        | Artifact collection and triage         | Free / Community-supported               |
+| Sysinternals Suite         | Live system analysis                   | Free from Microsoft                      |
+| Magnet AXIOM / EnCase      | Advanced forensic analysis             | Commercial licenses required             |
+| Windows Event Viewer       | Log analysis                           | Built-in                                 |
+| ELK Stack / Splunk         | Log aggregation and visualization      | Free tier / Commercial                   |
 
 ---
 
-## 🛠️ Implementation Workflow
+## 🛠️ Investigation Workflow
 
-1. **Initiate Project**
-   - Define AI security goals and success metrics
-   - Identify stakeholders: security, data science, compliance, IT
+1. **Initiate Investigation**
+   - Define scope and objectives
+   - Identify affected systems and stakeholders
+   - Preserve chain of custody documentation
 
-2. **AI Asset Inventory**
-   - Catalog AI models, datasets, endpoints, and pipelines
-   - Classify data sensitivity using Microsoft Purview
+2. **Evidence Preservation**
+   - Acquire disk images using FTK Imager or dd
+   - Capture memory dumps (e.g., with DumpIt or WinPMEM)
+   - Collect volatile data (network connections, processes, etc.)
 
-3. **Secure Infrastructure**
-   - Apply Azure security baselines to AI services
-   - Enable Defender for Cloud for AI-related resources
+3. **Initial Triage**
+   - Use tools like KAPE or Velociraptor to collect key artifacts:
+     - Event logs
+     - Registry hives
+     - Prefetch files
+     - LNK files
+     - Browser history
+     - Scheduled tasks
 
-4. **Model Security & Governance**
-   - Implement model verification and version control
-   - Use Prompt Shields and output monitoring for generative AI
-   - Apply RBAC and API gateway policies to control access
+4. **Timeline Reconstruction**
+   - Correlate file system timestamps, logs, and user activity
+   - Build a timeline of events using tools like Plaso or Timesketch
 
-5. **Threat Detection & Response**
-   - Integrate AI logs with Microsoft Sentinel
-   - Create analytics rules for prompt injection, model abuse, and data exfiltration
-   - Enable Defender for Cloud’s AI threat protection (preview)
+5. **IOC & Malware Analysis**
+   - Identify suspicious executables, scripts, or persistence mechanisms
+   - Analyze malware samples in a sandbox or using static tools (e.g., PEStudio)
 
-6. **Responsible AI Controls**
-   - Establish governance board and ethical review process
-   - Use Microsoft’s Responsible AI Standard and assessment tools
-   - Document model purpose, limitations, and risk mitigations
+6. **Log Analysis**
+   - Review Security, System, and Application logs
+   - Look for failed logins, privilege escalation, service creation, etc.
 
-7. **Red Teaming & Testing**
-   - Conduct adversarial testing (e.g., prompt injection, model inversion)
-   - Use tools like PyRIT for automated AI red teaming
-   - Simulate misuse scenarios and evaluate model resilience
+7. **User Activity Review**
+   - Examine browser history, downloads, and USB usage
+   - Review RDP connections and lateral movement indicators
 
-8. **Training & Awareness**
-   - Train developers and data scientists on secure AI practices
-   - Educate business users on responsible AI usage
+8. **Reporting**
+   - Document findings, timelines, and artifacts
+   - Provide recommendations for remediation and hardening
+   - Maintain evidence integrity for legal or compliance use
 
-9. **Monitoring & Optimization**
-   - Continuously monitor AI workloads and model behavior
-   - Review audit logs, alerts, and compliance reports
-   - Tune policies and update controls based on threat landscape
+9. **Post-Incident Review**
+   - Conduct lessons learned session
+   - Update incident response playbooks
+   - Share IOCs with threat intel platforms
 
 ---
 
 ## ✅ Best Practices
 
-- Use Azure API Management to secure AI endpoints
-- Apply data loss prevention (DLP) to AI input/output flows
-- Encrypt data at rest and in transit for all AI workloads
-- Use model registries with access control and audit trails
-- Monitor for bias, hallucinations, and misuse in generative AI
-- Align with MITRE ATLAS and OWASP AI threat frameworks
-- Automate risk assessments and compliance reporting
-- Red team both generative and non-generative AI systems
-- Integrate AI security into DevSecOps pipelines
-- Periodically review AI model performance and drift
+- Always work on forensic copies, not live systems
+- Use write blockers when imaging physical drives
+- Maintain detailed logs of every action taken
+- Validate tools and hash all collected evidence
+- Use multiple tools to cross-verify findings
+- Encrypt and securely store all evidence
+- Red team your own investigation process periodically
 
 ---
 
 ## 📋 Project Management Tips
 
-- Assign a cross-functional AI security lead
-- Track metrics: model uptime, incident response time, compliance scores
-- Align with NIST AI Risk Management Framework and ISO/IEC 42001
-- Schedule quarterly AI security reviews and tabletop exercises
-- Maintain a central AI asset and risk register
+- Assign a lead forensic analyst and legal liaison
+- Track investigation progress using a case management system
+- Align with NIST 800-86 or ISO/IEC 27037 guidelines
+- Schedule regular training and tabletop exercises
+- Maintain a forensic readiness policy
 
 ---
 
 ## 📎 Tools & Technologies
 
-- Microsoft Defender for Cloud (AI threat protection)
-- Microsoft Purview (data classification, risk management)
-- Azure OpenAI / Azure Machine Learning
-- Azure API Management (endpoint security)
-- Microsoft Sentinel (SIEM/SOAR)
-- PyRIT (AI red teaming)
-- GitHub Advanced Security (for AI code and pipeline protection)
+- FTK Imager / Autopsy / Magnet AXIOM
+- Velociraptor / KAPE / Plaso
+- Sysinternals Suite (Autoruns, Process Explorer, etc.)
+- Windows Event Viewer / PowerShell
+- Timesketch / ELK Stack / Splunk
